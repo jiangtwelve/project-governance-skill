@@ -14,8 +14,11 @@
 
 ## Decision Record
 
+`Title` 同时写入 `decisions/INDEX.md` 表格的 `Title` 列。
+
 - ID:
 - Date:
+- Title:
 - Area:
 - Status: proposed
 - Related SSOT:
