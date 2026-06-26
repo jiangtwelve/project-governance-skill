@@ -37,6 +37,24 @@ if [ -f "$state_file" ]; then
   done
 fi
 
+# Advisory: 仅提示，不改 exit code。
+# 当 active.md 中存在 acceptance_required: true 阶段，且对应 task plan 文件缺失时给出提醒。
+active_file="$root/.project-governance/processes/active.md"
+tasks_dir="$root/.project-governance/processes/tasks"
+if [ -f "$active_file" ]; then
+  grep -E '^- id: [a-zA-Z0-9_-]+$' "$active_file" | awk '{print $3}' | while IFS= read -r stage_id; do
+    [ -z "$stage_id" ] && continue
+    if ! ls "$tasks_dir"/${stage_id}*.md >/dev/null 2>&1; then
+      ctx=$(grep -A 6 "^- id: ${stage_id}$" "$active_file" | grep "acceptance_required:" | head -1)
+      case "$ctx" in
+        *"true"*)
+          printf 'advisory: acceptance_required stage "%s" has no task plan in processes/tasks/ yet\n' "$stage_id"
+          ;;
+      esac
+    fi
+  done
+fi
+
 if [ "$status" -eq 0 ]; then
   printf 'project-governance structure OK\n'
 fi

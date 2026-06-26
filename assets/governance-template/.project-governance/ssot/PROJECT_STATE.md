@@ -7,6 +7,7 @@
 - Current Version: TBD
 - Active Process: `.project-governance/processes/active.md`（待第二段商定后填写）
 - Process Mutation Threshold: 3
+- Task Mutation Threshold: 3
 
 ## Versions
 

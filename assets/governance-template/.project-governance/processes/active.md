@@ -4,6 +4,8 @@
 
 字段定义、改动规则与可裁剪边界见 `rules/DEVELOPMENT_PROCESS.md`，沉淀规则见 `rules/VERSION_RULES.md`。
 
+> **Task Plan 红线**：本流程中任何 `acceptance_required: true` 的阶段在编码前必须先产出 `processes/tasks/<stage_id>.md` 颗粒级 task plan 并经用户明确确认。模板见 `templates/RECORD_TEMPLATES.md` 的 `Task Plan` 段，规则见 `rules/DEVELOPMENT_PROCESS.md` 的 "Task Plan 前置" 段。
+
 ## Metadata
 
 - Name: TBD（建议格式 `<product-type>-<variant>-vN`）
