@@ -117,7 +117,7 @@
 
 ## Review Log
 
-代码改动后的 review 留痕。规则见 `rules/DEVELOPMENT_PROCESS.md` "Code Review 后置" 段。`Review Method` 示例：`/code-review`、`/security-review`、`project-script:<command>`、`agent-self-review`。
+代码改动后的 review 留痕。规则见 `rules/DEVELOPMENT_PROCESS.md` "Code Review 后置" 段。`Review Method` 示例：`claude-code:/code-review`、`claude-code:/security-review`、`opencode:<review-agent-or-command>`、`codex:<review-agent-or-command>`、`project-script:<command>`、`agent-self-review`。
 
 | Date | Scope | Result | Findings | Fix Status | Review Method |
 |---|---|---|---|---|---|

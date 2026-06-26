@@ -155,23 +155,23 @@ code review 至少检查：
 
 ### Review 执行方式
 
-- 默认优先使用外部 review skill 或项目已有 review 工具：
-  - 通用代码审查：优先使用 `/code-review` 或等价 code review skill。
-  - 安全敏感改动（认证、权限、用户输入、数据库、文件系统、外部 API、支付/金融、加密等）：优先使用 `/security-review` 或等价安全审查 skill。
+- 默认优先使用**当前开发环境可用的独立审查能力**：
+  - Claude Code：通用代码审查可用 `/code-review`；安全敏感改动可用 `/security-review`。
+  - OpenCode、Codex 或其他 agent 环境：使用等价的 review agent、review command、审查模式或插件。
   - 项目自带 review 脚本 / CI / 静态分析工具可以作为补充，但不能替代逻辑审查。
-- 外部 skill 不可用、项目无专门工具、或当前环境无法调用时，agent 才允许按本段清单自审。
-- 不论使用外部 skill、项目工具还是自审，都必须把结果写回对应 task plan 的 `Review Log`。
+- 外部审查能力不可用、项目无专门工具、或当前环境无法调用时，agent 才允许按本段清单自审。
+- 不论使用外部 skill、项目工具、其他 agent 环境的等价能力，还是自审，都必须把结果写回对应 task plan 的 `Review Log`。
 
 ### Review Log 记录要求
 
 每次 review 至少记录：
 
-- `Review Method`：使用的方式，例如 `/code-review`、`/security-review`、`project-script:<command>`、`agent-self-review`。
+- `Review Method`：使用的方式，例如 `claude-code:/code-review`、`claude-code:/security-review`、`opencode:<review-agent-or-command>`、`codex:<review-agent-or-command>`、`project-script:<command>`、`agent-self-review`。
 - `Result`：`pass` / `needs-fix` / `blocked` / `deferred-with-user-approval`。
-- `Findings`：只写关键发现摘要，不搬运外部 skill 的全文输出。
+- `Findings`：只写关键发现摘要，不搬运外部审查工具的全文输出。
 - `Fix Status`：`fixed` / `deferred` / `not-applicable`，若 deferred 必须写明用户确认。
 
-外部 skill 的结果是输入，不是最终通行证：发现 CRITICAL / HIGH 问题时仍必须修复并重新 review。
+外部审查结果是输入，不是最终通行证：发现 CRITICAL / HIGH 问题时仍必须修复并重新 review。
 
 ### Review 结果处理
 
