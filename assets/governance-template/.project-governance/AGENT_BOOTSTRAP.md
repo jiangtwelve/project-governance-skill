@@ -2,7 +2,7 @@
 
 除非 `AGENTS.md` 中 project-governance block 为 `Status: disabled`，否则所有 agent 必须遵守本文件。
 
-Metadata: governance_skill=project-governance; governance_version=0.1.0; initialized_at=TBD; project_type=TBD
+Metadata: governance_skill=project-governance; governance_version=0.2.0; initialized_at=TBD; project_type=TBD
 
 ## 启动
 
