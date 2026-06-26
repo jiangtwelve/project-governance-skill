@@ -8,7 +8,7 @@ Metadata: governance_skill=project-governance; governance_version=0.1.0; initial
 
 1. 先读 `ssot/PROJECT_STATE.md`。
 2. 再读 `rules/GRILLING_PROTOCOL.md`、`rules/DEVELOPMENT_PROCESS.md`、`rules/DOCUMENTATION_RULES.md`。
-3. 按任务读取相关 SSOT、流程、验收、导入或决策文件；默认只读 `decisions/INDEX.md`，需追溯时再读单个决策文件。
+3. 按任务读取相关 SSOT、流程、验收、导入或决策文件；默认只读 `.project-governance/decisions/INDEX.md`，需追溯时再读单个决策文件。
 
 ## 强制规则
 
@@ -23,4 +23,4 @@ Metadata: governance_skill=project-governance; governance_version=0.1.0; initial
 
 - SSOT：`ssot/PRD.md`、`ssot/ARCHITECTURE.md`、`ssot/API_CONTRACT.md`、`ssot/PROJECT_STATE.md`
 - 规则：`rules/GRILLING_PROTOCOL.md`、`rules/DEVELOPMENT_PROCESS.md`、`rules/DOCUMENTATION_RULES.md`、`rules/UPGRADE_RULES.md`
-- 追溯：`decisions/INDEX.md`、`imports/SOURCE_INDEX.md`
+- 追溯：`.project-governance/decisions/INDEX.md`、`.project-governance/imports/SOURCE_INDEX.md`

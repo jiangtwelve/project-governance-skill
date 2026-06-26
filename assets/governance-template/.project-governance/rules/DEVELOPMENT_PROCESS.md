@@ -1,12 +1,10 @@
 # Development Process
 
-开发流程不可随意变更。可按影响范围跳过阶段，但只能由 agent 建议、用户明确确认后生效。
+开发流程不可随意变更。跨流程的硬规则在 `AGENT_BOOTSTRAP.md`，本文件只列流程专属规则。
 
-## 强制规则
+## 流程规则
 
-- 不允许快速开始写代码，文档以后再补。
-- PRD 与架构确认前不得初始化业务代码。
-- 主文档更新后，必须按影响范围重走流程；不受影响的阶段可经用户确认后跳过。
+- 不受影响的阶段可由 agent 建议、用户明确确认后跳过。
 - 首次完整 UI 流程包含两次验收：前端阶段验收、当前版本全量验收。
 - 后续因需求或交互变更重走流程时，只保留最后一次验收，范围可收窄到受影响内容。
 
@@ -23,7 +21,6 @@
 | 06_backend_implementation | 后端开发 | Backend Implementation | 否 |
 | 07_integration | 前后端联调 | Integration | 否 |
 | 08_release_acceptance | 当前版本全量验收 | Release Acceptance | 是 |
-| 09_completed | 当前版本完成 | Completed | 否 |
 
 ## 流程选择
 

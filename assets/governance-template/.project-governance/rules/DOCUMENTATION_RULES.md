@@ -14,20 +14,20 @@
 - 需求或交互变化必须更新 `PRD.md` 的 `Change History`。
 - 架构变化必须更新 `ARCHITECTURE.md` 的 `Change History`。
 - API 契约变化必须更新 `API_CONTRACT.md` 的 `Change History`。
-- 详细讨论和权衡不要塞进 SSOT 主文档，写入 `decisions/` 单独文件。
+- 详细讨论和权衡不要塞进 SSOT 主文档，写入 `.project-governance/decisions/` 单独文件。
 
 ## 记录标准
 
 记录会影响后续需求、架构、流程或验收判断的事实：范围/交互变化、技术栈/数据/API 决策、阶段验收、阻塞风险、返工方向、治理升级或停用。不要记录普通命令、提交 git、临时调试、格式化、无行为变化重命名或 agent 自言自语。
 
-文件分工：当前状态写 `PROJECT_STATE.md`；需求/架构/API 变化摘要写对应 SSOT；决策原因写 `decisions/INDEX.md` 和单个决策文件。
+文件分工：当前状态写 `PROJECT_STATE.md`；需求/架构/API 变化摘要写对应 SSOT；决策原因写 `.project-governance/decisions/INDEX.md` 和单个决策文件。
 
 ## 现有文档导入
 
-- 原始文档不移动、不删除。
+- 导入时不主动移动或删除原始文档。
 - 导入过程记录在 `imports/SOURCE_INDEX.md`。
 - 从原始文档提炼出的内容必须经过追问和用户确认后，才能进入 SSOT。
-- 原始文档被确认导入后不再作为权威来源；若与 SSOT 冲突，以 SSOT 为准。
+- 原始文档被确认导入后不再作为权威来源；若与 SSOT 冲突，以 SSOT 为准，可由用户自行删除或归档。
 - 用户最新明确确认的结论优先于原始文档，但必须写入 SSOT 和决策记录。
 
 ## 语言策略

@@ -25,4 +25,4 @@
 - 架构/数据模型/部署：`ssot/ARCHITECTURE.md`
 - 接口：`ssot/API_CONTRACT.md`
 - 阶段/下一步：`ssot/PROJECT_STATE.md`
-- 长期原因和权衡：`decisions/NNNN-title.md` + `decisions/INDEX.md`
+- 长期原因和权衡：`.project-governance/decisions/NNNN-title.md` + `.project-governance/decisions/INDEX.md`

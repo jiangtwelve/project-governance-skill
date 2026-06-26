@@ -18,8 +18,7 @@
 
 ## Key Facts
 
-- `.project-governance/ssot/*` 是项目开发 SSOT。
-- 默认只读 `decisions/INDEX.md`，需要追溯时再读具体决策文件。
+记录新 agent 不知道就可能做错需求、架构、流程或验收判断的项目级事实。
 
 ## Stage Skips
 

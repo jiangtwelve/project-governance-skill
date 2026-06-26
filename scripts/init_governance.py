@@ -89,13 +89,15 @@ def scan_candidates(project_root: Path) -> list[Path]:
         "design",
         "spec",
     }
-    skip_dirs = {".git", "node_modules", ".project-governance", ".venv", "dist", "build"}
+    doc_suffixes = {"", ".md", ".mdx", ".txt", ".rst", ".adoc", ".pdf", ".doc", ".docx", ".yaml", ".yml", ".json"}
+    skip_files = {"requirements.txt", "dev-requirements.txt", "requirements-dev.txt"}
+    skip_dirs = {"node_modules", "dist", "build"}
     candidates: list[Path] = []
     for current, dirs, files in os.walk(project_root):
         current_path = Path(current)
         rel_dir = current_path.relative_to(project_root)
         depth = 0 if rel_dir == Path(".") else len(rel_dir.parts)
-        dirs[:] = [name for name in dirs if name not in skip_dirs and depth < 3]
+        dirs[:] = [name for name in dirs if name not in skip_dirs and not name.startswith(".") and depth < 3]
 
         for filename in files:
             path = current_path / filename
@@ -103,24 +105,40 @@ def scan_candidates(project_root: Path) -> list[Path]:
             if len(rel.parts) > 4:
                 continue
             lowered = filename.lower()
-            if any(key in lowered for key in names):
+            if lowered in skip_files:
+                continue
+            if path.suffix.lower() in doc_suffixes and any(key in lowered for key in names):
                 candidates.append(rel)
     return sorted(candidates)
 
 
-def write_scan(project_root: Path) -> int:
+def write_scan(project_root: Path) -> tuple[int, int]:
     candidates = scan_candidates(project_root)
     index = project_root / ".project-governance" / "imports" / "SOURCE_INDEX.md"
+    rows = [f"| `{rel.as_posix()}` | candidate | TBD | candidate | TBD | auto-scanned |" for rel in candidates]
+    if index.exists():
+        content = read_text(index)
+        existing = set(re.findall(r"^\| `([^`]+)` \|", content, flags=re.MULTILINE))
+        new_rows = [row for rel, row in zip(candidates, rows) if rel.as_posix() not in existing]
+        if new_rows:
+            marker = "\n\nImport status:"
+            insert = "\n".join(new_rows)
+            if marker in content:
+                content = content.replace(marker, f"\n{insert}{marker}", 1)
+            else:
+                content = content.rstrip() + "\n" + insert + "\n"
+            write_text(index, content)
+        return len(candidates), len(new_rows)
+
     lines = [
         "# Source Index",
         "",
-        "本文件记录已有项目文档的导入过程。原始文档不移动、不删除；被提炼并确认后，SSOT 优先于原始文档。",
+        "已有项目文档导入索引。导入规则见 `rules/DOCUMENTATION_RULES.md`。",
         "",
         "| Source Path | Type | Trust Level | Import Status | Imported Into | Notes |",
         "|---|---|---|---|---|---|",
     ]
-    for rel in candidates:
-        lines.append(f"| `{rel.as_posix()}` | candidate | TBD | candidate | TBD | auto-scanned |")
+    lines.extend(rows)
     lines.extend(
         [
             "",
@@ -128,7 +146,7 @@ def write_scan(project_root: Path) -> int:
         ]
     )
     write_text(index, "\n".join(lines) + "\n")
-    return len(candidates)
+    return len(candidates), len(rows)
 
 
 def main() -> int:
@@ -157,16 +175,17 @@ def main() -> int:
     )
 
     update_bootstrap_metadata(project_root, args.project_type)
-    scan_count = 0
+    scan_found = 0
+    scan_added = 0
     if args.scan:
-        scan_count = write_scan(project_root)
+        scan_found, scan_added = write_scan(project_root)
 
     print(f"Initialized project-governance in {project_root}")
     print(f"AGENTS.md: {agents_action} marker block")
     print(f"CLAUDE.md: {claude_action} marker block")
     print(f"Files created: {created}")
     if args.scan:
-        print(f"Existing document candidates indexed: {scan_count}")
+        print(f"Existing document candidates found: {scan_found}; newly indexed: {scan_added}")
     return 0
 
 

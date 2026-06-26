@@ -9,11 +9,8 @@ Create or maintain a project-owned governance system that works even after the p
 
 ## Hard Rules
 
-- Use only when explicitly asked to initialize, import, upgrade, or re-enable governance.
-- Never fast-start code and backfill docs later; application code starts only after grilling, PRD confirmation, architecture confirmation, and stage state are complete.
-- Resolve ambiguity with the bundled grilling protocol: inspect files first when possible; otherwise ask one question at a time with a recommended answer until decisions are confirmed.
-- Update the project SSOT for any requirement, interaction, architecture, API, data model, or workflow change.
-- Generated project files must remain understandable without this skill, external `grill-me`, Python, or other tooling.
+- Only run when explicitly asked to initialize, import, upgrade, or re-enable governance.
+- Project-side hard rules (no fast-start, grilling before code, SSOT updates, generator self-containment) live in the generated `.project-governance/`; do not duplicate or weaken them here.
 
 ## Workflow
 
@@ -21,14 +18,14 @@ Create or maintain a project-owned governance system that works even after the p
 2. Classify: new project, existing docs import, existing governance upgrade, or disabled governance re-enable.
 3. Create/update governance files: prefer `scripts/init_governance.py`; if Python or the script fails, manually copy the same structure from `assets/governance-template/`.
 4. Preserve existing `AGENTS.md` and `CLAUDE.md`; insert or update only the `project-governance` marker block.
-5. Confirm before code. For UI projects, the first frontend step must be static key pages for visual style confirmation.
+5. Create governance before discussion when useful; start project scaffolding or code only when `PROJECT_STATE.md` stage gates allow it. For UI projects, the first frontend step must be static key pages for visual style confirmation.
 6. Validate with generated `.project-governance/scripts/check-governance.sh` when possible, and run the skill validator after editing this skill.
 
 ## Generated System
 
 Generated projects use `AGENTS.md` and `CLAUDE.md` as entry points, with all durable rules under `.project-governance/`: `AGENT_BOOTSTRAP.md`, `rules/`, `ssot/`, `decisions/INDEX.md`, `imports/SOURCE_INDEX.md`, `templates/RECORD_TEMPLATES.md`, and `scripts/check-governance.sh`.
 
-Use governance-only mode for existing projects, uncertain stacks, or early product discussion. Use full-init only after PRD, architecture, API contract, and stage state are confirmed. Existing docs are inputs, not authority: index them, grill and confirm extracted facts, then make SSOT authoritative.
+Existing docs are inputs, not authority: index them, grill and confirm extracted facts, then make SSOT authoritative. For UI projects, project initialization may start after PRD/architecture confirmation; frontend Mock and backend work wait for the API contract.
 
 ## Process and Lifecycle
 

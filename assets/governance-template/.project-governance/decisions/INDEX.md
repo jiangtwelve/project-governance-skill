@@ -5,9 +5,4 @@
 | ID | Date | Area | Title | Status | File |
 |---|---|---|---|---|---|
 
-## Status Values
-
-- `proposed`
-- `accepted`
-- `superseded`
-- `rejected`
+Status: `proposed`, `accepted`, `superseded`, `rejected`.

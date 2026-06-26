@@ -13,9 +13,9 @@
 - 可以检测版本、生成 diff 和升级建议；不得静默修改治理规则。
 - 修改 `.project-governance/rules/*` 前必须获得用户确认。
 - 不得覆盖项目事实文档：`ssot/PRD.md`、`ssot/ARCHITECTURE.md`、`ssot/API_CONTRACT.md`、`ssot/PROJECT_STATE.md`。
-- 升级必须写入 `changelog/GOVERNANCE_CHANGELOG.md`；文件不存在时按需创建。
+- 升级必须写入 `.project-governance/changelog/GOVERNANCE_CHANGELOG.md`；文件不存在时按需创建。
 
-开发中升级不得默认重置开发流程。必须评估当前阶段、新规则影响、已完成阶段、当前需求/交互/架构/API/验收、是否补齐产物、是否回退或重新验收；结论写入 `PROJECT_STATE.md` 和 `GOVERNANCE_CHANGELOG.md`。
+开发中升级不得默认重置开发流程。必须评估当前阶段、新规则影响、已完成阶段、当前需求/交互/架构/API/验收、是否补齐产物、是否回退或重新验收；结论写入 `PROJECT_STATE.md` 和 `.project-governance/changelog/GOVERNANCE_CHANGELOG.md`。
 
 ## 停用与重启
 
