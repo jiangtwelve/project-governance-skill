@@ -36,6 +36,7 @@
   2. 把当前段状态改为 `Blocked: regressed to <stage_id>`；
   3. 在 `Stage Regressions` 段记录：从哪段回到哪段、原因、用户确认。
 - 回归只在当前版本骨架内发生；不允许通过回归动作影响旧版本的状态。
+- 回归与跳过是不同动作：跳过是用户对 `optional: true` 阶段的一次性豁免；回归是把已 `Confirmed` 的段重新打开。跳过规则见 `rules/DEVELOPMENT_PROCESS.md` 的"跳过记录"段。
 
 ## Backlog
 

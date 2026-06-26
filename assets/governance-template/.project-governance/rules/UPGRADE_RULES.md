@@ -22,9 +22,10 @@
 1.0.0 引入了项目骨架四段、多版本结构、Backlog、阶段回归、流程库与对照表。从 0.x 升级时必须：
 
 1. 与用户确认后再迁移 `ssot/PROJECT_STATE.md`：把旧的单段 `Current Stage` 字段迁移成 `Versions` 段下的 `v1.0` 骨架，对应的旧阶段按映射规则填入实际开发段内部流程。映射不明确时按追问协议询问用户。
-2. 旧的 `rules/processes/ui-project.md` 文件如果存在，引导用户决定：
+2. 旧的 `rules/processes/ui-project.md` 文件（仅 0.x 项目可能存在；1.0.0 起 skill 不再预设流程）如果存在，引导用户决定：
    - 把它作为 v1.0 的实际开发流程拷贝到 `.project-governance/processes/active.md`，并询问是否沉淀进 `~/.claude/process-library/`；
    - 或者放弃，由 agent 在第二段重新检索流程库 / 现场起草。
+   - 用户决定后删除该旧文件。
 3. 新增 `ssot/GLOSSARY.md` 与 `rules/VERSION_RULES.md`；GLOSSARY 由 agent 与用户从现有 PRD/架构反向梳理首批术语。
 4. 在 `.project-governance/changelog/GOVERNANCE_CHANGELOG.md` 写一条升级记录：升级前版本、升级后版本、迁移决定、影响范围、用户确认时间。
 5. 升级期间不动用户的 PRD / 架构 / API 内容；只动状态与流程结构，且每步必须用户确认。
