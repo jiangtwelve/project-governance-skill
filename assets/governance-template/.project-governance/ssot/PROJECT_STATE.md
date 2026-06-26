@@ -4,19 +4,17 @@
 
 ## Current Stage
 
-| Field | Value |
-|---|---|
-| ID | 00_governance_initialization |
-| 中文名称 | 治理体系初始化 |
-| English Name | Governance Initialization |
+- ID: 00_governance_initialization
+- 中文名称: 治理体系初始化
+- English Name: Governance Initialization
 
 ## Snapshot
 
-- Current goal: TBD
-- Completed: TBD
-- In progress: TBD
-- Next steps: TBD
-- Blockers: TBD
+- Current goal:
+- Completed:
+- In progress:
+- Next steps:
+- Blockers:
 
 ## Key Facts
 
@@ -27,6 +25,4 @@
 
 暂无。
 
-## Last Updated
-
-TBD
+Last updated: TBD

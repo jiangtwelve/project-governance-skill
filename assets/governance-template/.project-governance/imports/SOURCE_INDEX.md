@@ -4,6 +4,5 @@
 
 | Source Path | Type | Trust Level | Import Status | Imported Into | Notes |
 |---|---|---|---|---|---|
-| TBD | TBD | TBD | TBD | TBD | TBD |
 
 Import status: `candidate`, `partial-import`, `imported-confirmed`, `reference-only`, `superseded-by-ssot`, `conflicting`.

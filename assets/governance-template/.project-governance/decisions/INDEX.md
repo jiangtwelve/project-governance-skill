@@ -4,7 +4,6 @@
 
 | ID | Date | Area | Title | Status | File |
 |---|---|---|---|---|---|
-| TBD | TBD | TBD | TBD | TBD | TBD |
 
 ## Status Values
 

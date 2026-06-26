@@ -17,7 +17,7 @@ Create or maintain a project-owned governance system that works even after the p
 
 ## Workflow
 
-1. Orient: lightly scan the project root, `AGENTS.md`, `CLAUDE.md`, README files, manifests, and likely product/architecture/API/design docs. If `.project-governance/` exists, read `MANIFEST.md`, `AGENT_BOOTSTRAP.md`, and `ssot/PROJECT_STATE.md`.
+1. Orient: lightly scan the project root, `AGENTS.md`, `CLAUDE.md`, README files, manifests, and likely product/architecture/API/design docs. If `.project-governance/` exists, read `AGENT_BOOTSTRAP.md`, `ssot/PROJECT_STATE.md`, and legacy `MANIFEST.md` if present.
 2. Classify: new project, existing docs import, existing governance upgrade, or disabled governance re-enable.
 3. Create/update governance files: prefer `scripts/init_governance.py`; if Python or the script fails, manually copy the same structure from `assets/governance-template/`.
 4. Preserve existing `AGENTS.md` and `CLAUDE.md`; insert or update only the `project-governance` marker block.
@@ -26,29 +26,16 @@ Create or maintain a project-owned governance system that works even after the p
 
 ## Generated System
 
-Generated projects use `AGENTS.md` and `CLAUDE.md` as entry points. All governance lives under `.project-governance/`:
+Generated projects use `AGENTS.md` and `CLAUDE.md` as entry points, with all durable rules under `.project-governance/`: `AGENT_BOOTSTRAP.md`, `rules/`, `ssot/`, `decisions/INDEX.md`, `imports/SOURCE_INDEX.md`, `templates/RECORD_TEMPLATES.md`, and `scripts/check-governance.sh`.
 
-- `AGENT_BOOTSTRAP.md`, `MANIFEST.md`
-- `rules/`: grilling, development process, documentation, logging, upgrades, process variants
-- `ssot/`: `PRD.md`, `ARCHITECTURE.md`, `API_CONTRACT.md`, `PROJECT_STATE.md`
-- `decisions/INDEX.md`, `imports/SOURCE_INDEX.md`
-- `templates/`: decision and acceptance records
-- `scripts/check-governance.sh`
-
-`AGENTS.md` must contain the `<!-- project-governance:start --> ... <!-- project-governance:end -->` marker block.
-
-## Modes and Imports
-
-- Governance-only: create governance and SSOT placeholders for existing projects, uncertain stacks, or early product discussion.
-- Full-init: initialize application code only after PRD, architecture, API contract, and stage state are confirmed.
-- Existing documents are inputs, not authority. Index them in `imports/SOURCE_INDEX.md`; extract facts into SSOT only after grilling and user confirmation. Confirmed SSOT wins over originals.
+Use governance-only mode for existing projects, uncertain stacks, or early product discussion. Use full-init only after PRD, architecture, API contract, and stage state are confirmed. Existing docs are inputs, not authority: index them, grill and confirm extracted facts, then make SSOT authoritative.
 
 ## Process and Lifecycle
 
 - UI projects follow `rules/processes/ui-project.md`: PRD/architecture, API contract, static key-page style confirmation, frontend Mock, frontend acceptance, backend, integration, release acceptance.
-- Non-UI projects follow `rules/processes/default-project.md`.
+- Non-UI projects follow the default process in `rules/DEVELOPMENT_PROCESS.md`.
 - Skipping unaffected stages requires explicit user confirmation and must be recorded in `PROJECT_STATE.md`.
-- Version governance with `MANIFEST.md`. Patch/minor/major upgrades follow `rules/UPGRADE_RULES.md`.
+- Version governance with `AGENT_BOOTSTRAP.md` Metadata. Patch/minor/major upgrades follow `rules/UPGRADE_RULES.md`.
 - Never silently overwrite `rules/*` or project facts in `ssot/*`; ask for confirmation.
 - Disable by changing the `AGENTS.md` marker block to `Status: disabled`; re-enable only after synchronizing changes made while disabled.
 
@@ -56,7 +43,3 @@ Generated projects use `AGENTS.md` and `CLAUDE.md` as entry points. All governan
 
 - `assets/governance-template/`: generated governance files and marker blocks.
 - `scripts/init_governance.py`: optional initializer.
-
-```bash
-python3 project-governance/scripts/init_governance.py --project-root /path/to/project --project-type ui-project --scan
-```

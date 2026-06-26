@@ -67,24 +67,15 @@ def copy_template_tree(src: Path, dst: Path) -> int:
     return created
 
 
-def update_manifest(project_root: Path, project_type: str) -> None:
-    manifest = project_root / ".project-governance" / "MANIFEST.md"
-    if not manifest.exists():
+def update_bootstrap_metadata(project_root: Path, project_type: str) -> None:
+    bootstrap = project_root / ".project-governance" / "AGENT_BOOTSTRAP.md"
+    if not bootstrap.exists():
         return
     today = dt.date.today().isoformat()
-    content = read_text(manifest)
-    content = content.replace("| initialized_at | TBD |", f"| initialized_at | {today} |")
-    content = content.replace("| project_type | TBD |", f"| project_type | {project_type} |")
-    write_text(manifest, content)
-
-
-def ensure_generated_dirs(project_root: Path) -> None:
-    for rel in [
-        ".project-governance/acceptance",
-        ".project-governance/changelog",
-        ".project-governance/imports/analysis",
-    ]:
-        (project_root / rel).mkdir(parents=True, exist_ok=True)
+    content = read_text(bootstrap)
+    content = content.replace("initialized_at=TBD", f"initialized_at={today}")
+    content = content.replace("project_type=TBD", f"project_type={project_type}")
+    write_text(bootstrap, content)
 
 
 def scan_candidates(project_root: Path) -> list[Path]:
@@ -117,7 +108,7 @@ def scan_candidates(project_root: Path) -> list[Path]:
     return sorted(candidates)
 
 
-def write_scan(project_root: Path) -> None:
+def write_scan(project_root: Path) -> int:
     candidates = scan_candidates(project_root)
     index = project_root / ".project-governance" / "imports" / "SOURCE_INDEX.md"
     lines = [
@@ -128,11 +119,8 @@ def write_scan(project_root: Path) -> None:
         "| Source Path | Type | Trust Level | Import Status | Imported Into | Notes |",
         "|---|---|---|---|---|---|",
     ]
-    if candidates:
-        for rel in candidates:
-            lines.append(f"| `{rel.as_posix()}` | candidate | TBD | candidate | TBD | auto-scanned |")
-    else:
-        lines.append("| TBD | TBD | TBD | TBD | TBD | TBD |")
+    for rel in candidates:
+        lines.append(f"| `{rel.as_posix()}` | candidate | TBD | candidate | TBD | auto-scanned |")
     lines.extend(
         [
             "",
@@ -140,19 +128,18 @@ def write_scan(project_root: Path) -> None:
         ]
     )
     write_text(index, "\n".join(lines) + "\n")
+    return len(candidates)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Initialize project-governance in a project")
     parser.add_argument("--project-root", default=".", help="Project root to initialize")
-    parser.add_argument("--template-root", default=None, help="Override governance template root")
     parser.add_argument("--project-type", default="TBD", help="Project type, e.g. ui-project")
     parser.add_argument("--scan", action="store_true", help="Scan existing docs into imports/SOURCE_INDEX.md")
     args = parser.parse_args()
 
     script_dir = Path(__file__).resolve().parent
-    default_template = script_dir.parent / "assets" / "governance-template"
-    template_root = Path(args.template_root).resolve() if args.template_root else default_template
+    template_root = script_dir.parent / "assets" / "governance-template"
     project_root = Path(args.project_root).resolve()
 
     if not template_root.exists():
@@ -169,17 +156,17 @@ def main() -> int:
         read_text(template_root / "root" / "CLAUDE.block.md"),
     )
 
-    update_manifest(project_root, args.project_type)
-    ensure_generated_dirs(project_root)
+    update_bootstrap_metadata(project_root, args.project_type)
+    scan_count = 0
     if args.scan:
-        write_scan(project_root)
+        scan_count = write_scan(project_root)
 
     print(f"Initialized project-governance in {project_root}")
     print(f"AGENTS.md: {agents_action} marker block")
     print(f"CLAUDE.md: {claude_action} marker block")
     print(f"Files created: {created}")
     if args.scan:
-        print("Existing document candidates written to .project-governance/imports/SOURCE_INDEX.md")
+        print(f"Existing document candidates indexed: {scan_count}")
     return 0
 
 
