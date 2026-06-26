@@ -6,7 +6,7 @@
 
 - `PRD.md`：产品需求、用户流程、交互要求、需求变更摘要。
 - `ARCHITECTURE.md`：技术架构、模块边界、数据模型、部署约束、架构变更摘要。
-- `API_CONTRACT.md`：接口契约，是前端 Mock 和后端实现的共同标准。
+- `API_CONTRACT.md`：跨组件接口契约，是契约消费方与提供方的共同标准；无外部接口的项目保留为 `n/a` 状态。
 - `PROJECT_STATE.md`：当前版本、骨架四段状态、Active Process、Backlog、回归记录、跳过记录、关键事实。
 - `GLOSSARY.md`：用户口语 ↔ 文档术语 ↔ 代码标识的对照表，全项目唯一一份，跨版本共享。
 
@@ -17,13 +17,12 @@
 - API 契约变化必须更新 `API_CONTRACT.md` 的 `Change History`。
 - 术语含义变化必须追加 `GLOSSARY.md` 的 `Revisions`，不覆盖旧含义。
 - 版本启动、版本结束、阶段回归、流程改动必须更新 `PROJECT_STATE.md` 对应段。
-- 详细讨论和权衡不要塞进 SSOT 主文档，写入 `.project-governance/decisions/` 单独文件。
+- 实际开发段内部流程定义变化写入 `.project-governance/processes/active.md` 的 `Mutation Log`。
+- 详细讨论和权衡不要塞进 SSOT 主文档，写入 `.project-governance/decisions/` 单独文件，并在 `.project-governance/decisions/INDEX.md` 登记。
 
 ## 记录标准
 
 记录会影响后续需求、架构、流程、版本或验收判断的事实：范围/交互变化、技术栈/数据/API 决策、阶段验收、骨架阶段回归、流程改动、版本启停、Backlog 增删、阻塞风险、返工方向、治理升级或停用。不要记录普通命令、提交 git、临时调试、格式化、无行为变化重命名或 agent 自言自语。
-
-文件分工：当前状态写 `PROJECT_STATE.md`；需求/架构/API 变化摘要写对应 SSOT；术语变化写 `GLOSSARY.md`；流程定义改动写 `.project-governance/processes/active.md`；决策原因写 `.project-governance/decisions/INDEX.md` 和单个决策文件。
 
 ## 现有文档导入
 
