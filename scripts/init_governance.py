@@ -149,11 +149,36 @@ def write_scan(project_root: Path) -> tuple[int, int]:
     return len(candidates), len(rows)
 
 
+def ensure_process_library(verbose: bool = True) -> tuple[Path, str]:
+    library = Path.home() / ".claude" / "process-library"
+    if library.exists():
+        return library, "exists"
+    library.mkdir(parents=True, exist_ok=True)
+    readme = library / "README.md"
+    if not readme.exists():
+        readme.write_text(
+            (
+                "# Process Library\n\n"
+                "用户本机私有的开发流程库。第一次使用 project-governance skill 时为空，\n"
+                "随着项目沉淀而增长。沉淀触发与字段结构参见 skill 文档以及生成项目内的\n"
+                "`.project-governance/rules/DEVELOPMENT_PROCESS.md` 与 `rules/VERSION_RULES.md`。\n\n"
+                "每份流程一个 markdown 文件，文件名建议格式 `<product-type>-<variant>-vN.md`。\n"
+            ),
+            encoding="utf-8",
+        )
+    return library, "created"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Initialize project-governance in a project")
     parser.add_argument("--project-root", default=".", help="Project root to initialize")
-    parser.add_argument("--project-type", default="TBD", help="Project type, e.g. ui-project")
+    parser.add_argument("--project-type", default="TBD", help="Project type, e.g. saas-web-app")
     parser.add_argument("--scan", action="store_true", help="Scan existing docs into imports/SOURCE_INDEX.md")
+    parser.add_argument(
+        "--skip-process-library",
+        action="store_true",
+        help="Skip creating ~/.claude/process-library/ on first run",
+    )
     args = parser.parse_args()
 
     script_dir = Path(__file__).resolve().parent
@@ -180,10 +205,19 @@ def main() -> int:
     if args.scan:
         scan_found, scan_added = write_scan(project_root)
 
+    library_path: Path | None = None
+    library_status = "skipped"
+    if not args.skip_process_library:
+        library_path, library_status = ensure_process_library()
+
     print(f"Initialized project-governance in {project_root}")
     print(f"AGENTS.md: {agents_action} marker block")
     print(f"CLAUDE.md: {claude_action} marker block")
     print(f"Files created: {created}")
+    if library_path is not None:
+        print(f"Process library: {library_status} at {library_path}")
+    else:
+        print("Process library: skipped (use without --skip-process-library to enable)")
     if args.scan:
         print(f"Existing document candidates found: {scan_found}; newly indexed: {scan_added}")
     return 0

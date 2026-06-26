@@ -1,61 +1,75 @@
 # Development Process
 
-开发流程的可变性受当前阶段约束。跨流程的硬规则在 `AGENT_BOOTSTRAP.md`，本文件只列流程专属规则。
+本文件描述项目级开发流程模型。跨流程的硬规则在 `AGENT_BOOTSTRAP.md`，本文件只列流程专属规则。
 
-## 流程可变性
+## 模型概览
 
-流程只有两种状态：可变（Mutable）与冻结（Frozen），状态写在 `ssot/PROJECT_STATE.md` 的 `Process State` 字段。
+项目周期由两层组成：
 
-- **可变**：当且仅当当前阶段为 `01_prd_architecture_confirmation`（首次 PRD 与架构确认）或显式标记的需求改动阶段（PRD/架构出现变化、流程回退到 01 的状态）。
-- **冻结**：一旦用户明确确认进入下一阶段（`02_api_contract` 或之后任意阶段），流程立刻冻结。后续阶段必须严格按当时冻结的流程定义执行。
+- **项目骨架**：固定四段，跨项目不可变、不可重命名、不可合并、不可跳过。
+- **实际开发段内部流程**：第三段（实际开发）下挂载"本项目商定的开发流程"，这一层是动态的，按项目情况由 agent 与用户讨论商定。
 
-### 何时允许动态修改流程
+两层规则相互独立：骨架由 skill 强制，永远焊死；内部流程的可变性受版本与阶段状态约束（见下文）。
 
-只有在"可变"状态下，agent 才可以基于当前需求评估流程是否适用，并提出修改建议（增删阶段、调整顺序、替换默认流程为自定义流程）。修改必须满足：
+## 项目骨架（固定四段）
 
-1. 由 agent 按追问协议给出建议与理由，用户明确确认。
-2. 修改结果落到 `rules/processes/<project-slug>.md`（自定义流程文件），不要直接改默认的 `rules/processes/ui-project.md`。
-3. 在 `.project-governance/decisions/` 写入一条决策记录，说明为什么改、改了什么。
-4. 同步更新 `ssot/PROJECT_STATE.md` 的 `Active Process` 字段，指向新的流程文件。
-
-### 进入开发阶段之后
-
-- 流程冻结后，agent **不允许**修改流程定义、跳过流程要求的阶段或私自变更阶段顺序。
-- 如果开发中发现当前流程与实际需求不匹配，必须先：
-  1. 在 `ssot/PROJECT_STATE.md` 标注需要回退，列出原因和影响范围；
-  2. 由用户明确确认"回到需求讨论阶段"；
-  3. 把 `Current Stage` 改回 `01_prd_architecture_confirmation`，`Process State` 改回 `Mutable`；
-  4. 才能开始讨论流程调整。
-- 未经上述流程，任何流程改动都视为违规，agent 必须停下来向用户报告。
-
-## 流程规则
-
-- 不受影响的阶段可由 agent 建议、用户明确确认后跳过；跳过仍是冻结流程内的一次性豁免，不算修改流程。
-- 首次完整 UI 流程包含两次验收：前端阶段验收、当前版本全量验收。
-- 后续因需求或交互变更重走流程时，只保留最后一次验收，范围可收窄到受影响内容。
-
-## 阶段字典
-
-| ID | 中文名称 | English Name | 验收 |
+| ID | 中文名称 | English Name | 完成条件 |
 |---|---|---|---|
-| 00_governance_initialization | 治理体系初始化 | Governance Initialization | 否 |
-| 01_prd_architecture_confirmation | PRD 与架构确认 | PRD and Architecture Confirmation | 是 |
-| 02_api_contract | API 接口标准制定 | API Contract Definition | 否 |
-| 03_frontend_static_style_confirmation | 关键静态页面风格确认 | Frontend Static Style Confirmation | 是 |
-| 04_frontend_mock_implementation | 前端 Mock 开发 | Frontend Mock Implementation | 否 |
-| 05_frontend_acceptance | 前端阶段验收 | Frontend Acceptance | 是 |
-| 06_backend_implementation | 后端开发 | Backend Implementation | 否 |
-| 07_integration | 前后端联调 | Integration | 否 |
-| 08_release_acceptance | 当前版本全量验收 | Release Acceptance | 是 |
+| 01_requirements_confirmation | 需求确认 | Requirements Confirmation | `ssot/PRD.md` 经用户明确确认 |
+| 02_tech_stack_confirmation | 技术栈确认 | Tech Stack Confirmation | `ssot/ARCHITECTURE.md` 经用户明确确认，并在本段完成流程库检索与开发流程商定 |
+| 03_active_development | 实际开发 | Active Development | 按本版本商定的开发流程全部完成且通过 |
+| 04_acceptance_testing | 验收测试 | Acceptance Testing | 用户对本版本全量功能明确验收 |
 
-## 流程选择
+骨架阶段状态机：`Not Started` → `In Progress` → `Confirmed`；任何阶段可通过显式回归动作回到 `In Progress`，标注为 `Blocked: regressed to <stage>`。
 
-- UI 项目默认使用 `rules/processes/ui-project.md`；项目可在可变阶段派生自定义流程。
-- 非 UI 项目使用默认流程：PRD 与架构确认 -> 契约确认 -> 核心实现 -> 测试验证 -> 当前版本全量验收。
-- Web App、SaaS、管理后台、移动端、小程序、带界面的工具都属于 UI 项目。
+## 流程库与开发流程商定
 
-默认流程同样要求：有歧义必须追问；需求变化更新 PRD；架构、契约、数据模型变化更新对应 SSOT；完成前必须获得用户明确验收；跳过阶段必须由用户确认。
+- 流程库存放在用户本机 `~/.claude/process-library/`，不在项目内，也不随 skill 发版分发。首次使用时库为空。
+- 第二段开始时，agent 必须检索流程库（按项目类型 + 技术栈关键词匹配），把候选模板的 `applicable_to` 与 `lessons_learned` 摘出来给用户，建议是否采用、改用或现场起草。
+- 库中无合适模板时，agent 现场按流程模板字段（见下文）起草一份，逐条追问与用户对齐。
+- 商定后的开发流程写入 `.project-governance/processes/active.md`，并在 `ssot/PROJECT_STATE.md` 的 `Active Process` 字段引用该文件。
+- 当前版本商定的流程仅服务于当前版本；新版本启动时重新走第二段，可选择继续沿用、修改或换一份流程。
+
+### 流程模板字段
+
+每份流程（包括 active.md 与库里的模板）使用下述字段：
+
+- `name`：流程名（库内全局唯一，建议 `<product-type>-<variant>-vN`）。
+- `applicable_to`：适用项目类型与边界条件（白话描述）。
+- `stages[]`：阶段列表，每个阶段含：
+  - `id`：稳定英文 ID。
+  - `name_zh`：中文名。
+  - `goal`：一句话目标。
+  - `done_when`：可验证的完成条件。
+  - `acceptance_required`：是否需要用户明确确认（`true` / `false`）。
+  - `optional`：在裁剪时是否可省（`true` / `false`）。
+  - `typical_pitfalls`：这一步容易踩的坑（一两条）。
+- `lessons_learned`：关键经验，沉淀时由用户口述、agent 整理。
+- `derived_from`：沉淀来源（项目名、版本号、日期）。
+
+## 实际开发段内部流程的可变性
+
+进入第三段前商定的流程，在本版本内可以改动，但必须遵守以下规则：
+
+- 改动允许加阶段、删阶段、重排顺序、改阶段内容。
+- 每条改动必须按追问协议逐条确认（一次一问、附建议、附理由）。
+- 单次提议改动数量超过 `Process Mutation Threshold`（默认 3）时，agent 必须先反问：是否考虑换一份流程而不是改这份。换流程走"沉淀候选 → 第二段重新选模板"的路径。
+- 流程改动一旦确认，本段必须从新流程的第一个阶段重新开始；新旧流程重叠部分由 agent 起草"重叠研判清单"（旧产物在哪、是否仍满足新流程的 `done_when`、建议复用 / 局部修补 / 重做、附理由），逐条与用户确认，结果写入 `.project-governance/decisions/`。
+
+阶段级红线：流程中任何 `acceptance_required: true` 的阶段，agent 不允许在用户明确确认前推进到下一阶段。用户若希望松动此红线，必须显式修改流程文件（走追问协议），不允许在执行阶段隐式跳过。
+
+## 阶段回归
+
+骨架阶段状态可回归，回归不是失败而是正常路径：
+
+- 第三段开发中发现需求改动 → 回归第一段，第二段视技术栈是否受影响决定是否同步回归。
+- 第四段验收发现需求/架构问题 → 回归对应段。
+- 回归必须显式：
+  1. 把目标段状态从 `Confirmed` 改回 `In Progress`；
+  2. 把当前段状态标记为 `Blocked: regressed to <stage_id>`；
+  3. 在 `ssot/PROJECT_STATE.md` 的 `Stage Regressions` 段记录：从哪段回到哪段、原因、用户确认。
+- 跳过仍是流程内的一次性豁免（用户明确确认后跳过不受影响的阶段），与回归是不同动作。
 
 ## 跳过记录
 
-跳过阶段时，在 `ssot/PROJECT_STATE.md` 记录：阶段 ID、中文名称、跳过原因、影响范围、用户确认。
+跳过骨架阶段或开发流程内部阶段时，在 `ssot/PROJECT_STATE.md` 的 `Stage Skips` 段记录：阶段 ID、中文名、跳过原因、影响范围、用户明确确认时间。骨架四段中的需求确认、技术栈确认、验收测试不允许跳过，仅允许在确认条件已实质满足且用户明确表达"已确认"时推进。
