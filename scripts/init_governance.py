@@ -50,8 +50,8 @@ def upsert_marker_block(target: Path, block: str) -> str:
     return action
 
 
-def copy_template_tree(src: Path, dst: Path, force_rules: bool = False) -> list[str]:
-    created: list[str] = []
+def copy_template_tree(src: Path, dst: Path) -> int:
+    created = 0
     for item in sorted(src.rglob("*")):
         rel = item.relative_to(src)
         out = dst / rel
@@ -61,12 +61,9 @@ def copy_template_tree(src: Path, dst: Path, force_rules: bool = False) -> list[
 
         out.parent.mkdir(parents=True, exist_ok=True)
         if out.exists():
-            if force_rules and ".project-governance/rules" in out.as_posix():
-                shutil.copy2(item, out)
-                created.append(f"overwritten {out}")
             continue
         shutil.copy2(item, out)
-        created.append(str(out))
+        created += 1
     return created
 
 
@@ -79,6 +76,15 @@ def update_manifest(project_root: Path, project_type: str) -> None:
     content = content.replace("| initialized_at | TBD |", f"| initialized_at | {today} |")
     content = content.replace("| project_type | TBD |", f"| project_type | {project_type} |")
     write_text(manifest, content)
+
+
+def ensure_generated_dirs(project_root: Path) -> None:
+    for rel in [
+        ".project-governance/acceptance",
+        ".project-governance/changelog",
+        ".project-governance/imports/analysis",
+    ]:
+        (project_root / rel).mkdir(parents=True, exist_ok=True)
 
 
 def scan_candidates(project_root: Path) -> list[Path]:
@@ -130,14 +136,7 @@ def write_scan(project_root: Path) -> None:
     lines.extend(
         [
             "",
-            "## Import Status",
-            "",
-            "- `candidate`：待分析。",
-            "- `partial-import`：部分内容已提炼，仍有待确认问题。",
-            "- `imported-confirmed`：已提炼并确认，非权威，仅追溯。",
-            "- `reference-only`：只作背景参考。",
-            "- `superseded-by-ssot`：已完全被 SSOT 替代。",
-            "- `conflicting`：与 SSOT 存在冲突，需处理。",
+            "Import status: `candidate`, `partial-import`, `imported-confirmed`, `reference-only`, `superseded-by-ssot`, `conflicting`.",
         ]
     )
     write_text(index, "\n".join(lines) + "\n")
@@ -149,11 +148,6 @@ def main() -> int:
     parser.add_argument("--template-root", default=None, help="Override governance template root")
     parser.add_argument("--project-type", default="TBD", help="Project type, e.g. ui-project")
     parser.add_argument("--scan", action="store_true", help="Scan existing docs into imports/SOURCE_INDEX.md")
-    parser.add_argument(
-        "--force-rules",
-        action="store_true",
-        help="Overwrite existing .project-governance/rules files. Do not use without user confirmation.",
-    )
     args = parser.parse_args()
 
     script_dir = Path(__file__).resolve().parent
@@ -164,11 +158,7 @@ def main() -> int:
     if not template_root.exists():
         raise SystemExit(f"template root not found: {template_root}")
 
-    created = copy_template_tree(
-        template_root / ".project-governance",
-        project_root / ".project-governance",
-        force_rules=args.force_rules,
-    )
+    created = copy_template_tree(template_root / ".project-governance", project_root / ".project-governance")
 
     agents_action = upsert_marker_block(
         project_root / "AGENTS.md",
@@ -180,13 +170,14 @@ def main() -> int:
     )
 
     update_manifest(project_root, args.project_type)
+    ensure_generated_dirs(project_root)
     if args.scan:
         write_scan(project_root)
 
     print(f"Initialized project-governance in {project_root}")
     print(f"AGENTS.md: {agents_action} marker block")
     print(f"CLAUDE.md: {claude_action} marker block")
-    print(f"Files created: {len(created)}")
+    print(f"Files created: {created}")
     if args.scan:
         print("Existing document candidates written to .project-governance/imports/SOURCE_INDEX.md")
     return 0

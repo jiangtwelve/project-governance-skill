@@ -2,7 +2,7 @@
 
 ## 版本规则
 
-治理系统使用语义化版本：
+治理系统版本记录在 `MANIFEST.md`，使用语义化版本：
 
 - `patch`：不改变流程语义，默认不中断当前阶段。
 - `minor`：新增能力或规则强化，默认继续当前阶段，但需要补齐必要文档。
@@ -14,7 +14,7 @@
 - 不允许静默修改治理规则。
 - 用户确认后才能修改 `.project-governance/rules/*`。
 - 升级不得覆盖项目事实文档：`ssot/PRD.md`、`ssot/ARCHITECTURE.md`、`ssot/API_CONTRACT.md`、`ssot/PROJECT_STATE.md`。
-- 所有升级必须写入 `changelog/GOVERNANCE_CHANGELOG.md`。
+- 所有升级必须写入 `changelog/GOVERNANCE_CHANGELOG.md`；文件不存在时按需创建。
 
 ## 开发中升级
 

@@ -6,11 +6,4 @@
 |---|---|---|---|---|---|
 | TBD | TBD | TBD | TBD | TBD | TBD |
 
-## Import Status
-
-- `candidate`：待分析。
-- `partial-import`：部分内容已提炼，仍有待确认问题。
-- `imported-confirmed`：已提炼并确认，非权威，仅追溯。
-- `reference-only`：只作背景参考。
-- `superseded-by-ssot`：已完全被 SSOT 替代。
-- `conflicting`：与 SSOT 存在冲突，需处理。
+Import status: `candidate`, `partial-import`, `imported-confirmed`, `reference-only`, `superseded-by-ssot`, `conflicting`.

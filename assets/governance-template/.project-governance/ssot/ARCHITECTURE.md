@@ -1,6 +1,6 @@
 # Architecture
 
-本文件是技术架构、模块边界、数据模型和部署约束的 SSOT。任何架构变化都必须更新本文件并留痕。
+技术架构、模块边界、数据模型和部署约束的 SSOT。任何架构变化都必须更新本文件并留痕。
 
 ## Status
 
@@ -12,37 +12,22 @@ TBD
 |---|---|---|---|---|
 | TBD | 0.1.0 | Initial draft | Project initialization | TBD |
 
-## Technical Goals
+## Goals and Stack
 
-TBD
+- Technical goals: TBD
+- Tech stack: TBD
 
-## Tech Stack
+## System Design
 
-TBD
-
-## System Overview
-
-TBD
-
-## Module Boundaries
-
-TBD
-
-## Data Model
-
-TBD
-
-## Security and Privacy
-
-TBD
-
-## Deployment
-
-TBD
+- Overview: TBD
+- Module boundaries: TBD
+- Data model: TBD
 
 ## Constraints
 
-TBD
+- Security and privacy: TBD
+- Deployment: TBD
+- Other constraints: TBD
 
 ## Open Questions
 

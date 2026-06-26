@@ -1,19 +1,14 @@
 # Acceptance Report
 
-| Field | Value |
-|---|---|
-| Stage ID | TBD |
-| 中文名称 | TBD |
-| English Name | TBD |
-| Status | pending |
-| Scope | TBD |
-| Confirmed By | TBD |
-| Confirmed At | TBD |
+| Stage ID | 中文名称 | English Name | Status | Confirmed At |
+|---|---|---|---|---|
+| TBD | TBD | TBD | pending | TBD |
 
-## Result
+## Scope
 
 TBD
 
-## Required Changes
+## Result
 
-- TBD
+- Outcome: TBD
+- Required changes: TBD

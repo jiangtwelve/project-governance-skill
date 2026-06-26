@@ -1,72 +1,21 @@
 # UI Project Process
 
-本流程适用于 Web App、SaaS、管理后台、移动端、小程序、带界面的工具。
+适用于 Web App、SaaS、管理后台、移动端、小程序、带界面的工具。
 
-## 阶段
+| Stage ID | 中文阶段 | 完成条件 |
+|---|---|---|
+| 01_prd_architecture_confirmation | PRD 与架构确认 | `ssot/PRD.md`、`ssot/ARCHITECTURE.md`、`ssot/PROJECT_STATE.md` 已确认 |
+| 02_api_contract | API 接口标准制定 | `ssot/API_CONTRACT.md` 可指导前端 Mock 和后端实现 |
+| 03_frontend_static_style_confirmation | 关键静态页面风格确认 | 已实现关键页面静态版本，用户明确确认风格 |
+| 04_frontend_mock_implementation | 前端 Mock 开发 | 当前范围页面完成，按 API Contract 接入 Mock，主要路径可演示 |
+| 05_frontend_acceptance | 前端阶段验收 | 用户明确验收通过，并在 `acceptance/` 下记录 |
+| 06_backend_implementation | 后端开发 | 按 API Contract 实现后端逻辑；本阶段不单独验收 |
+| 07_integration | 前后端联调 | 前端接真实后端，关键流程联调通过；本阶段不单独验收 |
+| 08_release_acceptance | 当前版本全量验收 | 用户明确验收通过，并在 `acceptance/` 下记录 |
 
-### 01 PRD 与架构确认
+## 强制规则
 
-进入条件：
-
-- 用户提出项目目标或变更目标。
-- agent 已轻量扫描项目现状。
-
-完成条件：
-
-- `ssot/PRD.md` 已确认。
-- `ssot/ARCHITECTURE.md` 已确认。
-- `ssot/PROJECT_STATE.md` 已更新当前阶段。
-
-### 02 API 接口标准制定
-
-完成条件：
-
-- `ssot/API_CONTRACT.md` 已定义前端 Mock 所需接口、数据结构、错误结构和状态码。
-- API 契约可同时指导后端实现。
-
-### 03 关键静态页面风格确认
-
-强制规则：
-
-- 前端开发第一步必须做关键页面静态版本。
-- 静态页面用于确认视觉风格、布局密度、主要交互方向。
-- 用户明确确认前，不得批量开发后续页面。
-
-### 04 前端 Mock 开发
-
-完成条件：
-
-- 已开发当前范围内所有页面。
-- 已按 `API_CONTRACT.md` 接入 Mock 数据。
-- 主要交互路径可演示。
-
-### 05 前端阶段验收
-
-完成条件：
-
-- 用户明确表示前端阶段验收通过。
-- 验收结果写入 `acceptance/FRONTEND_ACCEPTANCE.md`。
-- 若有需求或交互变更，先更新 SSOT，再按影响范围回退流程。
-
-### 06 后端开发
-
-完成条件：
-
-- 后端逻辑按 `API_CONTRACT.md` 实现。
-- 后端开发阶段不单独要求用户验收。
-
-### 07 前后端联调
-
-完成条件：
-
-- 前端从 Mock 切换到真实后端。
-- 关键流程联调通过。
-- 联调阶段不单独要求用户验收。
-
-### 08 当前版本全量验收
-
-完成条件：
-
-- 用户明确表示当前版本全量验收通过。
-- 结果写入 `acceptance/RELEASE_ACCEPTANCE.md`。
-- 若验收中发生需求或交互变化，更新 SSOT 并按影响范围重走流程。
+- 前端开发第一步必须做关键页面静态版本；用户确认前不得批量开发后续页面。
+- 前端阶段验收不通过时，先更新 SSOT，再按影响范围回退流程。
+- 当前版本全量验收中出现需求或交互变化时，更新 SSOT 并按影响范围重走流程。
+- 验收记录按 `templates/ACCEPTANCE_REPORT.template.md` 创建或更新。

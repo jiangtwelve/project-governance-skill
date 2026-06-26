@@ -1,6 +1,6 @@
 # PRD
 
-本文件是产品需求和交互要求的 SSOT。任何需求或交互变更都必须更新本文件并留痕。
+产品需求和交互要求的 SSOT。任何需求或交互变更都必须更新本文件并留痕。
 
 ## Status
 
@@ -16,35 +16,20 @@ TBD
 
 TBD
 
-## Users
-
-TBD
-
 ## Scope
 
-### In Scope
+- In: TBD
+- Out: TBD
 
-- TBD
-
-### Out of Scope
-
-- TBD
-
-## Core Workflows
+## Users and Workflows
 
 TBD
 
-## Functional Requirements
+## Requirements
 
-TBD
-
-## Interaction Requirements
-
-TBD
-
-## Acceptance Criteria
-
-TBD
+- Functional: TBD
+- Interaction: TBD
+- Acceptance: TBD
 
 ## Open Questions
 

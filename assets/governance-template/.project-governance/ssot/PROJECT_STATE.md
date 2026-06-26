@@ -1,6 +1,6 @@
 # Project State
 
-本文件是当前状态快照，不是开发日志。开始工作前必须读取；结束后仅在发生实质状态变化时更新。
+当前状态快照，不是开发日志。开始工作前读取；结束后仅在发生实质状态变化时更新。
 
 ## Current Stage
 
@@ -10,25 +10,13 @@
 | 中文名称 | 治理体系初始化 |
 | English Name | Governance Initialization |
 
-## Current Goal
+## Snapshot
 
-TBD
-
-## Completed
-
-- TBD
-
-## In Progress
-
-- TBD
-
-## Next Steps
-
-- TBD
-
-## Blockers
-
-- TBD
+- Current goal: TBD
+- Completed: TBD
+- In progress: TBD
+- Next steps: TBD
+- Blockers: TBD
 
 ## Key Facts
 

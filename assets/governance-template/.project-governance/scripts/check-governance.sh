@@ -18,18 +18,16 @@ need_dir() {
   fi
 }
 
-need_file "AGENTS.md"
-need_file "CLAUDE.md"
-need_dir ".project-governance"
-need_file ".project-governance/AGENT_BOOTSTRAP.md"
-need_file ".project-governance/GOVERNANCE_VERSION"
-need_file ".project-governance/MANIFEST.md"
-need_file ".project-governance/ssot/PROJECT_STATE.md"
-need_file ".project-governance/ssot/PRD.md"
-need_file ".project-governance/ssot/ARCHITECTURE.md"
-need_file ".project-governance/ssot/API_CONTRACT.md"
-need_file ".project-governance/decisions/INDEX.md"
-need_file ".project-governance/imports/SOURCE_INDEX.md"
+required_dirs=".project-governance .project-governance/acceptance .project-governance/changelog .project-governance/imports/analysis"
+required_files="AGENTS.md CLAUDE.md .project-governance/AGENT_BOOTSTRAP.md .project-governance/MANIFEST.md .project-governance/rules/GRILLING_PROTOCOL.md .project-governance/rules/DEVELOPMENT_PROCESS.md .project-governance/rules/DOCUMENTATION_RULES.md .project-governance/rules/LOGGING_RULES.md .project-governance/rules/UPGRADE_RULES.md .project-governance/rules/processes/ui-project.md .project-governance/rules/processes/default-project.md .project-governance/ssot/PROJECT_STATE.md .project-governance/ssot/PRD.md .project-governance/ssot/ARCHITECTURE.md .project-governance/ssot/API_CONTRACT.md .project-governance/decisions/INDEX.md .project-governance/imports/SOURCE_INDEX.md .project-governance/templates/ACCEPTANCE_REPORT.template.md .project-governance/templates/DECISION_RECORD.template.md"
+
+for dir in $required_dirs; do
+  need_dir "$dir"
+done
+
+for file in $required_files; do
+  need_file "$file"
+done
 
 if [ -f "$root/AGENTS.md" ] && ! grep -q 'project-governance:start' "$root/AGENTS.md"; then
   printf 'AGENTS.md missing project-governance marker block\n'
