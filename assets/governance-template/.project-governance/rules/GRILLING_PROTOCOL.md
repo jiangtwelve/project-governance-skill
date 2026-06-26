@@ -26,5 +26,6 @@
 - 需求/交互：`ssot/PRD.md`
 - 架构/数据模型/部署：`ssot/ARCHITECTURE.md`
 - 接口：`ssot/API_CONTRACT.md`
-- 阶段/下一步：`ssot/PROJECT_STATE.md`
+- 阶段/下一步/流程冻结状态：`ssot/PROJECT_STATE.md`
+- 流程定义改动：`rules/processes/<project-slug>.md` + 一条决策记录
 - 长期原因和权衡：`.project-governance/decisions/NNNN-title.md` + `.project-governance/decisions/INDEX.md`

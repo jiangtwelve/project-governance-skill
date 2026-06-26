@@ -2,7 +2,7 @@
 
 除非 `AGENTS.md` 中 project-governance block 为 `Status: disabled`，否则所有 agent 必须遵守本文件。
 
-Metadata: governance_skill=project-governance; governance_version=0.2.0; initialized_at=TBD; project_type=TBD
+Metadata: governance_skill=project-governance; governance_version=0.3.0; initialized_at=TBD; project_type=TBD
 
 ## 启动
 
@@ -18,6 +18,7 @@ Metadata: governance_skill=project-governance; governance_version=0.2.0; initial
 - 需求/交互变化更新 `ssot/PRD.md`；架构/接口/数据模型/部署变化更新对应 SSOT。
 - 主文档更新后按影响范围重走流程；跳过不受影响阶段必须由用户确认。
 - 验收和关键确认只能来自用户明确表达；`PROJECT_STATE.md` 仅在实质状态变化时更新。
+- 开发流程仅在需求讨论/改动阶段（`Process State: Mutable`）可调整；进入开发阶段后流程立即冻结，未经用户确认回到 PRD 阶段，agent 不得修改、增删或重排任何流程阶段。
 
 ## 索引
 
