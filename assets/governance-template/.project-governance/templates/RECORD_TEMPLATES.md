@@ -27,12 +27,14 @@
 
 ## Stage Regression Record
 
+短表写入 `PROJECT_STATE.md` 的 `Stage Regressions`；展开版（含 Impact）写入决策记录。
+
 - Date:
 - Version:
 - From Stage:
 - To Stage:
 - Reason:
-- Impact on existing artifacts:
+- Impact on existing artifacts:（写入决策记录，PROJECT_STATE 表内不展开）
 - User Confirmed:
 
 ## Backlog Item

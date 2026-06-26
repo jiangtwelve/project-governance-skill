@@ -2,25 +2,19 @@
 
 本文件记录**当前项目当前版本商定的开发流程**。在骨架第二段（技术栈确认）由 agent 与用户共同填写。本文件只服务于实际开发段；启动新版本时按需重新填写或继承。
 
-字段定义与维护规则见 `rules/DEVELOPMENT_PROCESS.md`。
+字段定义、改动规则与可裁剪边界见 `rules/DEVELOPMENT_PROCESS.md`，沉淀规则见 `rules/VERSION_RULES.md`。
 
 ## Metadata
 
+- Name: TBD（建议格式 `<product-type>-<variant>-vN`）
+- Applicable To: TBD
 - Source: TBD（`library:<name>` 或 `drafted-in-project`）
+- Applied To Version: TBD
 - Confirmed At: TBD
-- Version: TBD（适用于哪个项目版本）
-
-## Process
-
-- name: TBD
-- applicable_to: TBD
-- stages: 待填写
-- lessons_learned: 待填写
-- derived_from: 当前项目，待版本号确定后写入
 
 ## Stages
 
-按 `stages[]` 字段结构逐条填写：
+按 `rules/DEVELOPMENT_PROCESS.md` 的字段顺序逐条填写：
 
 ### Example Stage（占位，请删除并替换为真实阶段）
 
@@ -32,6 +26,10 @@
 - optional: false
 - typical_pitfalls:
   - 列出这一步容易踩的坑
+
+## Lessons Learned
+
+沉淀时由用户口述、agent 整理。当前版本走完一轮前可留空。
 
 ## Mutation Log
 

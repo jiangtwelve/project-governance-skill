@@ -14,10 +14,12 @@
 
 ### vTBD  Status: In Progress
 
-- 01_requirements_confirmation  需求确认       Not Started
-- 02_tech_stack_confirmation    技术栈确认     Not Started
-- 03_active_development         实际开发       Not Started
-- 04_acceptance_testing         验收测试       Not Started
+| Stage ID | 中文名称 | Status |
+|---|---|---|
+| 01_requirements_confirmation | 需求确认 | Not Started |
+| 02_tech_stack_confirmation | 技术栈确认 | Not Started |
+| 03_active_development | 实际开发 | Not Started |
+| 04_acceptance_testing | 验收测试 | Not Started |
 
 状态值：`Not Started` / `In Progress` / `Confirmed` / `Blocked: regressed to <stage_id>`。
 
