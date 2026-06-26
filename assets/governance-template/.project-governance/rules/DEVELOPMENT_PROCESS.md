@@ -90,6 +90,7 @@
 - `Risks`：工作量黑洞与未知阻塞点。**不是**流程模板里的 `typical_pitfalls`（那是流程级提醒）；这里写本次实例的预估外风险，每条附"触发条件 + 兜底动作"。
 - `Explicitly Not Doing`：明确划走的事（避免边界蔓延）。
 - `Definition of Done`：与 active.md 对应阶段的 `done_when` 一一映射 + 本 task plan 自检条（如"已逐条勾选 task table"）。
+- `Review Log`：代码改动后的审查留痕表。表头 `Date / Scope / Result / Findings / Fix Status / Review Method` 顺序不可调。
 - `Mutation Log`：执行中改动留痕表。表头 `Date / Change / Reason / User Confirmed` 顺序不可调。
 
 ### 颗粒度判定
@@ -127,6 +128,41 @@
 - **task plan 改动**：同一流程阶段内的执行级调整，写在 task plan 文件的 `Mutation Log`，受 `Task Mutation Threshold` 约束。
 - **流程阶段改动**（加 / 删 / 重排 / 改 stage）：流程级变更，按上节"实际开发段内部流程的可变性"处理，写在 `processes/active.md` 的 `Mutation Log`，受 `Process Mutation Threshold` 约束。
 - 发现 task 拆完后 done_when 仍达不成，是流程级问题，触发流程改动协议；发现某条具体 task 实施有偏差，是 task plan 级问题，走 task plan Mutation Log。
+
+## Code Review 后置（代码改动后的逻辑漏洞审查红线）
+
+任何 task 只要涉及代码新增、修改或删除，完成代码改动后必须先插入 code review，才能标记 task 完成或进入下一编码 task。
+
+### 触发条件
+
+以下任一动作都触发 code review：
+
+- 新增、修改、删除源码、配置、脚本、测试、数据库迁移、构建文件。
+- 调整会改变运行行为的文档生成脚本、CI/CD、依赖版本或环境配置。
+- 修复 review 中发现的问题后，必须对新 diff 再做一次 review。
+
+纯文档措辞、注释、格式化、无行为变化的重命名可豁免；豁免必须写入 task plan `Mutation Log` 或 task 执行记录，说明"不涉及运行逻辑"。
+
+### Review 内容
+
+code review 至少检查：
+
+- 是否完成 task plan 对应 task 的 `产出 / 验证`，有没有偏离 task 边界。
+- 是否存在逻辑漏洞、边界条件遗漏、错误处理缺失、状态不一致、数据丢失风险。
+- 是否引入安全问题（输入未校验、权限绕过、敏感信息泄漏、路径/命令注入等）。
+- 是否有不必要的复杂度、重复实现、可读性明显下降。
+- 测试或验证是否覆盖本次改动的关键路径。
+
+### Review 结果处理
+
+- 发现 CRITICAL 或 HIGH 问题：必须先修复，再重新 code review；不得继续后续编码 task。
+- 只有 LOW / MEDIUM 建议且用户确认可延后时，才允许继续；延后项必须写入 task plan `Mutation Log` 或 Backlog。
+- review 通过后，在对应 task plan 的 `Review Log` 记录：日期、范围、结果、发现问题、修复状态、review 方式。
+- 若项目已有专门 review skill 或工具，优先使用；没有时由 agent 按本段清单自审，但仍必须留下 Review Log。
+
+### 与验收的关系
+
+code review 不是用户验收的替代。review 只证明本次代码改动没有明显逻辑漏洞和质量阻断；阶段是否完成仍以 active.md 对应阶段的 `done_when` 与用户明确确认为准。
 
 ## 阶段回归
 

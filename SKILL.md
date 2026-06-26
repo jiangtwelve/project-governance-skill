@@ -35,7 +35,7 @@ Generated projects use `AGENTS.md` and `CLAUDE.md` as entry points, with all dur
 - `ssot/PROJECT_STATE.md` — current version + four-stage status + Active Process + Backlog + Stage Regressions + Stage Skips
 - `ssot/GLOSSARY.md` — user term ↔ doc term ↔ code identifier dictionary, shared across versions
 - `processes/active.md` — the development flow agreed for the current version's third stage
-- `processes/tasks/<stage_id>.md` — fine-grained task plan required before any code work for each `acceptance_required` stage of the active development flow; rules in `rules/DEVELOPMENT_PROCESS.md` "Task Plan 前置" section
+- `processes/tasks/<stage_id>.md` — fixed-format task plan required before code work for each `acceptance_required` stage; code-changing tasks must record post-change code review in `Review Log`; rules in `rules/DEVELOPMENT_PROCESS.md` "Task Plan 前置" and "Code Review 后置" sections
 - `decisions/INDEX.md`, `imports/SOURCE_INDEX.md`, `templates/RECORD_TEMPLATES.md`
 - `scripts/check-governance.sh` — structural validator
 
